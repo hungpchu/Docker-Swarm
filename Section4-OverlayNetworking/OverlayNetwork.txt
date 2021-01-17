@@ -1,0 +1,51 @@
+Docker Network
+1. Bridge
+    - private internal network created by docker on the host
+    - all containers attached to this Network by default and
+    - they get an internal IP address in the range 172.17.0.1
+        - the container can access each other using this internal IP
+    - if want to use this IP external then map port to the docker host's port
+
+2. Host
+    - takes out any network isolation between the docker host and the docker containers
+    - can not run multiple containers on the same host on the same port as the porsts are common to all containers in the host network
+
+3. None
+    - container are not attached to any networks
+    - does not have any access to the external network or other containers
+
+Have multiple docker node/host
+1. each has the own private internal network
+2. How can container across the host/node communicate with each other from different host?
+    - publish the port on those containers and 
+    - set up routing
+    - OR use overlay network
+
+overlay network
+1. docker network create --driver overly --subnet 10.0.9.0/24 my-overlay-network
+    - will create an internal private networks that
+        - spans across all the nodes participating in the swarm cluster
+2. docker service create --replicas 2 --network my-overlay-network
+    - attach the container/services to this network while creating a service
+
+Ingress network
+1. is a type of overlay network which
+    - is a single network that spans across all the nodes in the clusters
+2. load balancer
+    - receives requests from any node in the cluster and
+    - forwards the request to the instance on any other nodes
+    - creating a routing mesh
+        - helps in routing the user traffic that is received on a node that 
+            - is not even running an instance to other nodes that are running
+3. default behavior of docker swarm
+    - don't have to do additional config
+
+Scenario
+1. Have a web server and a database running on the same node
+    - How can I get web service to access the database on the database container?
+        - use the internal IP address assigned to the database container
+            - not ideal since the container have the same IP when the system reboots
+        - use the container name
+            - Docker has the built in DNS server that
+                - holds the containers to resolve each other using the container name
+                -DNS server runs at the address 127.0.0.11

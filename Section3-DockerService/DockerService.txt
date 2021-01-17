@@ -1,0 +1,42 @@
+docker run <containerName> command
+1. start the runnining container instance in a single docker host/node
+
+Learn how to create swarm cluster
+2. How do I utilize my cluster to run multiple container instances?
+    1st way. run the docker run command above on each docker node/host
+        - not ideal
+        - should use docker swarm orchestration
+    2nd way. docker swarm orchestration
+        - key component is docker service
+
+Docker Service
+1. 1 or more instances of single application in container that
+    - run across the swarm cluster
+2. can create a docker service running multiple instances of my web application across workers node in my swamp cluster
+    - run docker service create --replicas <numberOfInstances> <containerName> command on the manager node
+
+docker service create --replicas <numberOfInstances> <containerName> 
+1. when running this command in the manager node
+    - the orchestrator on the manager node decides how many tasks to create and
+    - the scheduler schedules that many tasks on each worker node
+    - the task on the worker node
+        - is 
+            - the process that kick off the actual container instance
+            - responsible for updating the status of the container to the manager node for
+                - keep track of workers and instances running on them
+        - has 1 to 1 relationship with each container
+        - in case the container fail then task fail as well
+        - when the task fail then node knows and create a new task
+
+Replicas service
+1. are created with --replicase option
+2. may cause issue where some node can have multiple instances while other nodes may have none instance
+
+Global service
+1. are created with --mode global option
+2. 1 instance per 1 node
+
+docker service update --relicase <newNumberOfInstance> <containerName>
+
+docker service ps <serviceName>/<serviceID>
+1. see the task created by the service

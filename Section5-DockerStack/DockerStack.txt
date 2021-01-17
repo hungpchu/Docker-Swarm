@@ -1,0 +1,43 @@
+Scenario
+For container
+    1. docker run <containerName> running each individual container
+    2. have the docker-compose.yml and run docker-compose up will run all the containers
+
+For swarm
+    1. docker serice create <containerName> 
+        - run multiple instances of each service
+        - orchestrate their deployments with service and stacks
+    2. have the docker-stack.yml and run docker stack deploy command to 
+        - deploy the entire application stack all at once
+
+container
+1. is a packaged form of an application that
+    - has its own dependencies and
+    - runs in its own environment
+
+service
+1. has 1 or more instances of the same type container running on a single node or across multiple nodes
+
+Docker Stack
+1. is a group in inter-related services that together form an entire application
+2. allows me to monitor each service separately
+    - if each service requires additional capacity then I will expand the service alone
+3. makes my application distributed and easy to scale/manage
+
+docker-stack.yml
+1. has the deploy property
+    - deploy:
+        replicas: <numberOfIntance>
+        placement: 
+            constraints: // act like condition
+                - node.hostname == node1 // place the service under node 1
+                - node.role == manager // place the service under manager node
+        resources:
+            limits: // ensure the service not drain the underlying OS
+                cpus: 0.01
+                memory: 50M
+
+Link to placement constraints: https://docs.docker.com/engine/swarm/services/#placement-constraints
+
+docker stack deploy --compose-file docker-stack.yml <stackName>
+1. deploy the application

@@ -1,0 +1,51 @@
+Docker Swarm
+1. combine multiple docker machine(hosts) together into a single cluster
+2. distributes your services into seperate hosts for high avail
+3. balance load across different systems and hardwares
+4. Docker host = node
+
+Set up Docker Swarm
+1. Choose one of the docker host to be the master/swarm manager and others as slaves/workers
+2. Run the docker swarm init command on the swarm manager node which
+    - init the swarm manager with docker swarm init command
+    - output the command to run on the workers node
+3. Run the join command on the workers node to have workers join the manager
+    - the command looks like docker swarm join --token <tokenName> something
+    - After joining the swarm, workers can be referred as nodes
+4. Now we are ready to create services and deploy them on this swarm cluster
+
+Manager node
+1. is the master node
+2. maintains the cluster state
+    - create/distributes/erase the container state/services
+3. manage the workers 
+    - add/remove workers
+4. can have multiple manager nodes
+    - with one leader and other managers
+    - learn about the distributes consensus
+5. has a copy of raft database the stores the information about the entire cluster
+6. can still perform as worker nodes
+
+Cluster failure
+1. when all the managers node failure
+2. can not 
+    - perform management
+    - add/remove services/workers nodes
+3. worker node still performs
+
+docker node ls
+1. lists all the nodes
+
+docker swarm leave
+2. run on the node that want to leave the cluster
+
+docker swarm join-token manager/worker
+1. run on the current manager node
+    - output the command to join the cluster as other manager/worker
+2. put the join command from above to the node (docker host) that want to join as the other manager/worker
+
+docker node promotion <nodeName>
+1. run on the current manager leader node
+
+hostname <newNodeName>
+1. update the node name in the current docker host

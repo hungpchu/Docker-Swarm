@@ -1,0 +1,27 @@
+Docker Compose
+1. docker run --name=vote -p 5000:80 --link redis:redis voting-app
+    - --link 
+        - creates an entry into the /etc/host on the voting app container
+        - adds an entry with the hostname Redis and the internal IP(run cat /etc/host to see)
+2. buld field in docker-compose 
+    - replace image field
+    - contains the location of the directory including application code and Dockerfil with instructions
+3. version
+    - version 1
+        - attaches all the container to the default bridge network and then
+        - uses links to enable communication (have to use link)
+    - version 2 has 
+        - services field as root
+        - version: 2
+        - auto link services so you don't have to manually use link
+    - version 3
+        - supports docker swarm
+        - version: 3
+    
+network
+1. User-defined network
+    - use network field
+        - network:
+            - front-end
+            - back-end
+        - create 2 networks 
