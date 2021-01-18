@@ -1,0 +1,5 @@
+docjer build . -t <imageName>
+1. create an image of application
+2. Once built, the image can be pushed to the repo called Docker hub (public Docker Registry)
+
+Docker Registry

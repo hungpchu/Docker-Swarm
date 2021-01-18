@@ -1,0 +1,95 @@
+Kubernete
+1. advance docker orchestration technology
+
+docker swarm
+1. create a cluster of nodes/hosts and run container/tasks on each node
+2. run multiple instances of containers
+3. orchestration
+    - if 1 host fail then docker swarm auto turn on another instances of container
+    - provides framework for integrating/managing big number of containers
+
+Introduction
+1. same with Docker swarm in the case
+    - a cluster is formed by a master node and multiple worker nodes that obey the master node
+    - function of master node
+2. different from Docker swarm in the case that Kubernete
+    - does not run containers directly on the worker nodes
+    - wraps the containers inside a virtual block (parts)
+    - A pod
+        - is the smallest/simple unit in cabinet
+        - has 1 to 1 relationship with container
+        - can have multiple containers (different from each other) within it
+            - different containers in the same pod 
+                - share the same storage/network space
+                - communicate with each other using the hostname
+            - allow different containers to access the same shared data
+        - IP address is assigned at the pod level and not container in docker swarm
+        - is another layer of abstraction in Kubernete to group together different containers, networks and store it into a virtual container
+        - application will be scaled at the pods level
+            - when load increases, deploying multiple pods
+            - can have multiple pods within the same Kubernete nodes/worker
+    - all container 
+        - can not be run by itself
+        - can not create service by itself
+        - has to be encapsulated in a unit of deployment known as pods
+    - deployment
+        - kinda like service in docker swarm
+        - creates a replica set to
+            - create multiple instance of pods 
+    - service
+        - kinda like link option in docker swarm
+        - to enable communication between pods
+        - to have external access to the application
+        - has 2 types of 
+            - internal (clusterIP)
+                - to create a connectivity between the internal components
+            - external (load balancer)
+                - to expose ports to the external world for user access
+
+kubectl
+1. kubectl create -f pod-definition.yml
+    - this will create pods (like service in docker swarm)
+2. kubectl get pods
+    - get the list of pods and their status
+3. kubectl describe pods
+    - get the detail of pods
+
+pod-definition.yml
+1. like docker-stack.yml in docker swarm
+2. create deployment and services\
+3. has 4 major section
+    - apiVersion (version)
+        - v1
+    - kind
+        - pod
+        - deployment
+        - service
+    - metadata
+        - name
+        - labels
+    - spec (specification)
+        - containers
+        - ports
+3. for example
+apiVersion: v1
+kind: pod
+metadata:
+    name: my-nginx
+spec:
+    containers:
+        - name: nginx   
+          image: nginx
+          ports:
+            - containerPort: 80
+4. can create multiple different definition file (pod-definition.yml) for each pod deployment
+
+Example voting application
+1. create/deploy pods for each container
+2. create service (clusterIP) to link each containers/pod
+3. create service (load balancer) to connect to external environment
+
+kubectl create -f .
+1. create all pods and service at once
+
+kubectl delete -f .
+1. delete all services and pods at once

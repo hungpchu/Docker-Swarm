@@ -1,0 +1,27 @@
+CI/CD Integration
+1. CI
+    1. Continuous Integration
+    2. multiple developers push codes to the repository (github), which
+        - links to the built management system (Jenkins), which
+            - takes the code and built it
+            - for example, if the application is java then the built file is jar file
+            - makes sure that it builts correctly and not introduce new issues to the application
+                - we can config the build system to run tests on the build package
+    3. ensures that new changes integrate into application without any new issues
+
+2. CD
+    1. Continuous Delivery
+    2. release our new version of the application
+    3. package the build application into executable or rpm package
+    4. take the packaged application and auto deploy it in a target environment
+
+How Docker integrate with CI/CD
+1. Docker is supported with Jenkins
+2. Each project has a dockerfile checked into its code repo (github) along with the rest application code
+3. Once checked into github, Jenkins 
+    - post the code
+    - uses the dockerfile to build the docker image
+    - tag the image with the new build number like my-app:1.0
+    - On the successful build, this image can be used to run tests
+    - On the successful tests, this image will be pushed to the image repo (Docker Registry, Docker hub)
+    - The image repository can be integrated into a container hosting platform (AWS)

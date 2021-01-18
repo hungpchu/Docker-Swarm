@@ -1,0 +1,5 @@
+Docker Cloud
+1. With docker cloud, we can log into the docker cloud portal
+2. create a stack with our stack config file
+3. docker cloud will provision number od hosts, set up docker and docker swarm on these hosts and set up networking, creates services and run containers
+4. docker cloud is the built system
